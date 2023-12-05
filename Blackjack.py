@@ -13,22 +13,63 @@ class Player:
 
     def add_fund(self):
         amount = input("How much money would you like to add?")
-        while(type(amount) != "int"):
-            amount = input("Please re-Write numbers only, in integers.")
-        self.added_money += amount
-        self.current_money += amount
+        while True:
+            try:
+                self.added_money += int(amount)
+                self.current_money += int(amount)
+                break
+            except ValueError:
+                amount = input("Please re-Write numbers only, in integers.")
+        print(self)
     
     def __repr__(self):
-        return "{name} has {total_money} money total. They have added {added_money} so far. They have earned {earning} so far from playing.".format(name = self.name, total_money = self.current_money, added_money = self.added_money, earning = self.earning)
+        return "{name} has {total_money} fund total. They have added {added_money} fund so far. They have earned {earning} fund so far from playing.".format(name = self.name, total_money = self.current_money, added_money = self.added_money, earning = self.earning)
       
 class Deck:
-  def __init__(self):
-    full_deck =[]
-    deck_faces = ["Dia", "Clb", "Hrt", "Spd"]
-    deck_numbers = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
-    for faces in deck_faces:
-        for numbers in deck_numbers:
-            full_deck.append(str(numbers)+"-"+faces)
-    self.current_deck = full_deck
-  def __repr__(self):
-    return str(self.current_deck)
+    def __init__(self):
+        full_deck =[]
+        deck_faces = ["Dia", "Clb", "Hrt", "Spd"]
+        deck_numbers = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
+        for faces in deck_faces:
+            for numbers in deck_numbers:
+                full_deck.append(str(numbers)+"-"+faces)
+        self.current_deck = full_deck
+
+    def __repr__(self):
+        return str(self.current_deck)
+
+class Playing:
+    def __init__(self, player):
+        self.player = player
+        self.playing_deck = Deck()
+        print("We are starting a new round! {player} has {fund} as their fund currently.\n".format(player = self.player.name, fund = self.player.current_money))
+        if self.player.current_money <= 0:
+            print("You don't have sufficient funds! You currently owe {money} to the Casino. Please add more fund to play!\n".format(money = self.player.current_money * -1))
+        want_to_add_money = input("Would you like to add more fund? (y/n)")
+        want_to_add_money.lower()
+        if want_to_add_money == "y":
+            self.player.add_fund()
+    
+    def deal_cards(self):
+
+    def play_game(self):
+        
+
+        self.end_round()
+
+    def end_round(self):
+        continue_game = input("Would you like to continue playing? (y/n)")
+        continue_game.lower()
+        if continue_game == "n":
+            self.player.still_playing = False
+
+
+#script for playing
+print("Welcome to Blackjack Casino! Here you can play a simple Blackjack game. Hope you will enjoy!")
+
+player1 = Player()
+
+while(player1.still_playing):
+    thisround = Playing(player1)
+
+print("Thank you for playing, {player}! Hope you had fun!".format(player = player1.name))
