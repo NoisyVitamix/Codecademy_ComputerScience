@@ -4,26 +4,25 @@ import random # For drawing cards randomly
 
 class Player:
     def __init__(self):
-        self.name = input("What is your name? ")
+        self.name = input("\nWhat is your name? ")
         self.added_money = 0
         self.current_money = 0
-        self.earning = self.current_money - self.added_money
         self.add_fund()
         self.still_playing = True
 
     def add_fund(self):
-        amount = input("How much money would you like to add? ")
+        amount = input("\nHow much money would you like to add? ")
         while True:
             try:
                 self.added_money += int(amount)
                 self.current_money += int(amount)
                 break
             except ValueError:
-                amount = input("Please re-Write numbers only, in integers: ")
+                amount = input("\nPlease re-Write numbers only, in integers: ")
         print(self)
     
     def __repr__(self):
-        return "{name} has {total_money} fund total. They have added {added_money} fund so far. They have earned {earning} fund so far from playing.".format(name = self.name, total_money = self.current_money, added_money = self.added_money, earning = self.earning)
+        return "\n{name} has {total_money} fund total. They have added {added_money} fund so far. They have earned {earning} fund so far from playing.".format(name = self.name, total_money = self.current_money, added_money = self.added_money, earning = self.current_money-self.added_money)
       
 class Deck:
     def __init__(self):
@@ -42,13 +41,13 @@ class Playing:
     def __init__(self, player):
         self.player = player
         self.playing_deck = Deck()
-        print("We are starting a new round! {player} has {fund} as their fund currently.\n".format(player = self.player.name, fund = self.player.current_money))
-        want_to_add_money = input("Would you like to add more fund before starting? (y/n) ")
+        print("\n\nWe are starting a new round! {player} has {fund} as their fund currently.\n".format(player = self.player.name, fund = self.player.current_money))
+        want_to_add_money = input("\nWould you like to add more fund before starting? (y/n) ")
         want_to_add_money.lower()
         if want_to_add_money == "y":
             self.player.add_fund()
         while self.player.current_money <= 0 and self.player.still_playing:
-            quitting = input("You don't have sufficient funds! You currently owe {money} to the Casino. Please add more fund to play! If you would rather quit here, enter 'q'.".format(money = self.player.current_money * -1))
+            quitting = input("\nYou don't have sufficient funds! You currently owe {money} to the Casino. Please add more fund to play! If you would rather quit here, enter 'q'. ".format(money = self.player.current_money * -1))
             quitting.lower()
             if quitting == 'q':
                 self.player.still_playing = False
@@ -68,14 +67,14 @@ class Playing:
             hole_card = self.dealer_hand[0]
         else:
             hole_card = "HIDDEN"
-        print("Here is the dealer's hand:", end=" ")
+        print("\nHere is the dealer's hand:", end=" ")
         print(hole_card, end=" ")
         for i in range(1, len(self.dealer_hand)):
             print(self.dealer_hand[i], end=" ")
         print("\nHere is your hand:", end=" ")
         for i in range(len(self.player_hand)):
             print(self.player_hand[i], end=" ")
-        print('\n')
+        print('\n\n')
     
     def hand_value(self, hand):
         hand_no_faces = []
